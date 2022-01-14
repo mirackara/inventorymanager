@@ -1,4 +1,5 @@
 # inventory manager
+<img width="992" alt="image" src="https://user-images.githubusercontent.com/55501260/149480461-c47662d2-0e84-4eab-932d-112bea42441c.png">
 
 <h2>Description</h2>
 • This is an inventory manager that shows current inventory levels and allows searching of all inventory or aisle. 
