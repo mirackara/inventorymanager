@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+        <form enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
+            {{ form.itemSKU }}
+            {{ form.itemName }}
+            {{ form.itemAmount }}
+            {{ form.itemAisle }}
+            <button name = 'update'> Update</button>
+        </form>
+</body>
+</html>

@@ -6,4 +6,3 @@ class InventoryModel(models.Model):
     itemName = models.CharField(max_length=200)
     itemAmount = models.IntegerField()
     itemAisle = models.CharField(max_length=201)
-

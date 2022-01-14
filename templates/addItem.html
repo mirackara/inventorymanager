@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add To Inventory</title>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <!-- Basic CSS Styling -->
+        <style>
+            .btn-primary, .btn-primary:visited {
+                background-color: #2a3942 !important;
+                border-color: white;
+                height: 35px;
+            }
+            .btn-primary:hover, .btn-primary:active {
+                background-color: #1f2931 !important;
+                border-color: black
+            }
+            .form-control-small {
+                color: black;
+                border-color: white;
+                height: 35px;
+            }
+            .form-control-small:hover, .form-control-small:active {
+                border-color: black
+            }
+            tr{
+                width:100%;
+            }
+            td{
+                border: 1px solid black;
+            }
+            table{
+                width:100%;
+                border: 1px solid black;
+            }
+        </style>
+
+</head>
+<body>
+        <form enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
+            <div id="searchCard" class= "card mx-auto" style="width: 20rem;" >
+            <input   type="search" name="itemSku" id="itemSku" class="form-control-small rounded"
+                         placeholder="SKU" style="border-color:#2a3942;"/>
+            <input  type="search" name="itemName" id="itemName" class="form-control-small rounded"
+                 placeholder="Item Name" style="border-color:#2a3942;"/>
+            <input  type="search" name="itemAmount" id="itemAmount" class="form-control-small rounded"
+                 placeholder="Amount in Inventory" style="border-color:#2a3942;"/>
+            <input  type="search" name="itemAisle" id="itemAisle" class="form-control-small rounded"
+                 placeholder="Aisle Number" style="border-color:#2a3942;"/>
+            <button type="submit" class="btn btn-primary">add</button>
+            <button type="submit" id="cancelAdd" name = "cancelAdd" class="btn btn-primary">cancel</button>
+
+            </div>
+        </form>
+
+
+</body>
+</html>

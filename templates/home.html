@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Inventory Manager</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 </head>
     <!-- Basic CSS Styling -->
     <style>
@@ -25,12 +28,10 @@
             border-color: black
         }
         tr{
-            color:white;
             width:100%;
         }
         td{
             border: 1px solid black;
-            color:white;
         }
         table{
             width:100%;
@@ -40,19 +41,28 @@
      <script type="text/javascript">
          function UnhideElement(elementToHide,element, buttonArray) {
              var elemHTML = document.getElementById(element);
-             document.getElementById('addHandler').hidden = true;
-             document.getElementById('searchHandler').hidden = true;
+
+             if (elementToHide == 'searchHandler'){
+                 document.getElementById('searchHandler').hidden = true;
+                 document.getElementById('addToDB').hidden = true;
+             }
 
              if (elemHTML.hidden) {
                  elemHTML.hidden = false;
              } else {
                  elemHTML.hidden = true;
                }
+             document.getElementById('itemSku').hidden = true;
+             document.getElementById('itemName').hidden = true;
+             document.getElementById('itemAmount').hidden = true;
+             document.getElementById('itemAisle').hidden = true;
              for (var i = 0; i < buttonArray.length; ++i){
                  button = buttonArray[i];
                  var currButton = document.getElementById(button);
                  currButton.hidden = false;
              }
+             document.getElementById("searchCard").hidden = false;
+
         }
         function checkIfEmpty(buttonClicked){
             var itemSku = document.getElementById("itemSku");
@@ -74,10 +84,12 @@
                 for (let i = 0; i < emptyItems.length; ++i) {
                     if (i == 0) {
                         tmpStr += emptyItems[i];
-                    } else if (buttonClicked == 'addToDB') {
-                        tmpStr += ", " + emptyItems[i];
                     } else if (buttonClicked == 'searchDB') {
-                        tmpStr += " or " + emptyItems[i];
+                        if (emptyItems.length == 4){
+                            tmpStr += " or " + emptyItems[i];
+                        }else{
+                            return true;
+                        }
                     }
                 }
                 document.getElementById('errorHandler').innerHTML = "Please Enter - " + tmpStr ;
@@ -88,11 +100,13 @@
         }
     </script>
 
-<body style="background-color: #32373a ;">
+<body style="background-color: #2a3942">
     <div class="container-fluid" style="text-align: center;">
         <p id="errorHandler" style="color: red"></p>
         <form enctype="multipart/form-data" method="POST">
             {% csrf_token %}
+            <div class="col">
+                <div id="searchCard" class= "card mx-auto" style="width: 20rem;" hidden="True" >
                 <input hidden = "True" type="search" name="itemSku" id="itemSku" class="form-control-small rounded"
                              placeholder="SKU" style="border-color:#2a3942;"/>
                 <input hidden = "True" type="search" name="itemName" id="itemName" class="form-control-small rounded"
@@ -101,35 +115,42 @@
                      placeholder="Amount in Inventory" style="border-color:#2a3942;"/>
                 <input hidden = "True" type="search" name="itemAisle" id="itemAisle" class="form-control-small rounded"
                      placeholder="Aisle Number" style="border-color:#2a3942;"/>
-                <input hidden = "True" type="submit" name="addToDB" id="addToDB" value="Add To Inventory" class="btn btn-primary" onclick="return checkIfEmpty('addToDB');">
+                </div>
+                 </div>
+            <div class="col">
+                <input type="submit" name="addToDB" id="addToDB" value="Add To Inventory" class="btn btn-primary">
                 <input hidden = "True" type="submit" name="searchDB" id="searchDB" value="Search Inventory" class="btn btn-primary" onclick="return checkIfEmpty('searchDB');">
-
-                <input type="button" id="searchHandler" value="Search Inventory" class="btn btn-primary" onclick="UnhideElement('searchHandler','searchDB', ['itemSku','itemName']);">
-                <input type="button" id="addHandler" value="Add To Inventory" class="btn btn-primary" onclick="UnhideElement('addHandler','addToDB', ['itemSku','itemName','itemAmount','itemAisle']);">
-                <input type="submit" name="listInventory" id="listInventory" value="List Full Inventory" class="btn btn-primary">
-                <!-- Using the formset -->
-                <table id="table" class="table">
-                    <tr>
-                            <th scope="col">SKU</th>
-                            <th scope="col">Item Name</th>
-                            <th scope="col">Inventory</th>
-                            <th scope="col">Aisle</th>
-                    </tr>
-                    {% for item in query %}
-                        <tr>
-                            <td>{{ item.itemSKU }}</td>
-                            <td>{{ item.itemName }}</td>
-                            <td>{{ item.itemAmount }}</td>
-                            <td>{{ item.itemAisle }}</td>
-                        </tr>
-                    {% endfor %}
-                </table>
+                <input type="button" id="searchHandler" value="Search Inventory" class="btn btn-primary" onclick="UnhideElement('searchHandler','searchDB', ['itemSku','itemName','itemAisle']);">
+                <input type="submit" name="listInventory" id="listInventory" value="List Full Inventory" class="btn btn-primary" onclick="">
+                <input type="submit" name="convertToCSV" id="convertToCSV" value="Export to CSV" class="btn btn-primary" onclick="">
+            </div>
             </form>
+        <br></br>
+        <div class= "card mx-auto" style="width: 50%; background-color:#2a3942" id="tableCard">
+        <!-- Using the formset -->
+        <table id="table" class="table" style="background-color:#1f2931;">
+            <tr>
+                    <th style="color:white" scope="col">SKU</th>
+                    <th style="color:white" scope="col">Item Name</th>
+                    <th style="color:white" scope="col">Inventory</th>
+                    <th style="color:white"scope="col">Aisle</th>
+                     <th></th>
+            </tr>
+            {% for item in query %}
+                <tr>
+                    <td style="color:white" >{{ item.itemSKU }}</td>
+                    <td style="color:white">{{ item.itemName }}</td>
+                    <td style="color:white">{{ item.itemAmount }}</td>
+                    <td style="color:white">{{ item.itemAisle }}</td>
+                    <td style="color:white">
+                        <a href="{% url 'editHandler' item.itemSKU %}" class="btn btn-info btn-sm" style="background-color: #2a3942" ><span class="far fa-edit"></span></a>
+                        <a href="{% url 'deleteHandler' item.itemSKU %}" style="background-color:red" class="btn btn-info btn-sm"><span class="fas fa-trash"></span></a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </table>
         </div>
-
-Edit item
-Delete item
-Button to export data
-
+        </div>
 </body>
 </html>

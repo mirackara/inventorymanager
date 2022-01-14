@@ -17,6 +17,11 @@ from django.contrib import admin
 from django.urls import path
 from inventoryApp.views import *
 
+
 urlpatterns = [
-    path('', indexHandler),
+    path('', indexHandler, name='indexHandler'), # Handles Index Load
+    path('add/', addHandler, name='addHandler'), # Handles Adding Item
+    path('<str:itemSKU>/',editHandler, name='editHandler'), # Handles Modifying Item
+    path('<str:itemSKU>', deleteHandler, name='deleteHandler')  # Handles Deleting Item
+
 ]
