@@ -4,6 +4,7 @@ from .models import InventoryModel
 from .SQLToCSV import convertData
 from .addToSQL import addToSQL
 from .form import InventoryForm
+from .searchSQL import searchSQL
 
 # Delete Existing Item
 def deleteHandler(request, itemSKU):
@@ -17,10 +18,12 @@ def editHandler(request, itemSKU):
         # Retrieve Item from DB
         model = InventoryModel.objects.get(itemSKU=itemSKU)
         # Change values
+        print(request.POST)
         model.itemName = request.POST['itemName']
         model.itemSKU = itemSKU
         model.itemAmount = request.POST['itemAmount']
         model.itemAisle = request.POST['itemAisle']
+
         model.save()
         return redirect('/')
     # Show Editing Page
@@ -29,7 +32,9 @@ def editHandler(request, itemSKU):
         form = InventoryForm(instance=item)
         return render(request, "updateItem.html", {'form': form})
 
-
+def showItemList(request):
+    context = InventoryModel.objects.all()
+    return render(request, "home.html", {'query': context})
 # Add Item to DB
 def addHandler(request):
     # Initial Load
@@ -47,18 +52,16 @@ def addHandler(request):
 def indexHandler(request, showList=False):
     # Initial Load
     if request.POST == {}:
-        return render(request, "home.html")
+        context = InventoryModel.objects.all()
+        return render(request, "home.html", {'query': context})
     # Add to Database Button
     if 'addToDB' in request.POST:
         return redirect('/add/')
     if 'listInventory' in request.POST or showList:
-        context = InventoryModel.objects.all()
-        return render(request, "home.html", {'query': context})
+        return showItemList(request)
     # Search for Row Button
     if 'searchDB' in request.POST:
-        if 'itemSku' in request.POST:
-            context = InventoryModel.objects.filter(itemSKU=request.POST['itemSku'])
-            return render(request, "home.html", {'query': context})
+        return searchSQL(request)
         # Convert to CSV Button
     if 'convertToCSV' in request.POST:
         csvDir = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))

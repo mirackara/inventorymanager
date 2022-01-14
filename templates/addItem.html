@@ -38,7 +38,7 @@
         </style>
 
 </head>
-<body>
+    <body style="background-color:#2a3942">
         <form enctype="multipart/form-data" method="POST">
             {% csrf_token %}
             <div id="searchCard" class= "card mx-auto" style="width: 20rem;" >
@@ -52,7 +52,6 @@
                  placeholder="Aisle Number" style="border-color:#2a3942;"/>
             <button type="submit" class="btn btn-primary">add</button>
             <button type="submit" id="cancelAdd" name = "cancelAdd" class="btn btn-primary">cancel</button>
-
             </div>
         </form>
 
