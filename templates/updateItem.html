@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <h1 style="color:white;">Inventory Manager // Update Entry</h1>
     <meta charset="UTF-8">
     <title>Title</title>
     <!DOCTYPE html>
@@ -75,21 +76,19 @@
             </tr>
             {% csrf_token %}
             <tr>
-                <th>
-                    {{ form.itemSKU }}
-                </th>
-                <th>
-                    {{ form.itemName }}
-                </th>
-                <th>
-                    {{ form.itemAmount }}
-                </th>
-                <th>
-                    {{ form.itemAisle }}
-                </th>
+                <th> {{ form.itemSKU }} </th>
+                <th> {{ form.itemName }} </th>
+                <th> {{ form.itemAmount }} </th>
+                <th> {{ form.itemAisle }} </th>
             </tr>
         </table>
         </div>
         </form>
 </body>
+<!-- Footer -->
+<footer class="fixed-bottom">
+    <div class="text-left p-3" style="background-color:#2b4959; height: 50px;">
+        <a class="text-white" href="https://github.com/mirackara/projectscatter">GitHub</a>
+    </div>
+</footer>
 </html>

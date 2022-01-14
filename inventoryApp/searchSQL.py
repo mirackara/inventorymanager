@@ -2,10 +2,14 @@ from django.shortcuts import render
 from inventoryApp.models import InventoryModel
 
 def searchSQL(request):
-    print(request.POST)
     itemSkuPOST = request.POST['itemSku']
     itemNamePOST = request.POST['itemName']
     itemAislePOST = request.POST['itemAisle']
+    # If the user did not fill out any forms
+    if itemNamePOST == '' and itemSkuPOST == '' and itemAislePOST == '':
+        context = InventoryModel.objects.all()
+        return render(request, "home.html", {'query' : context})
+
     if itemSkuPOST != '':
         context = InventoryModel.objects.filter(itemSKU=itemSkuPOST)
         return render(request, "home.html", {'query': context})

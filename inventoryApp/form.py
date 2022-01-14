@@ -1,7 +1,6 @@
 from django import forms
 from .models import InventoryModel
 
-
 class InventoryForm(forms.ModelForm):
     class Meta:
         model = InventoryModel

@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ndeh*#^4+9$$%prqxq9k1baj+5gxefd0a6t-&k-h^sx+^v$zoq'
+SECRET_KEY = 'secretkey'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -29,7 +29,6 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -75,6 +74,8 @@ WSGI_APPLICATION = 'inventoryproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# NOTE: Currently, this is set to sqlite3.
+# If working on a collaborative manner, I would STRONGLY recommend using MySQL.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

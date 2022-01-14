@@ -11,14 +11,12 @@ def deleteHandler(request, itemSKU):
     InventoryModel.objects.filter(itemSKU=itemSKU).delete()
     return redirect('/')
 
-
 # Edit Existing Item
 def editHandler(request, itemSKU):
     if 'update' in request.POST:
         # Retrieve Item from DB
         model = InventoryModel.objects.get(itemSKU=itemSKU)
         # Change values
-        print(request.POST)
         model.itemName = request.POST['itemName']
         model.itemSKU = itemSKU
         model.itemAmount = request.POST['itemAmount']
@@ -32,9 +30,11 @@ def editHandler(request, itemSKU):
         form = InventoryForm(instance=item)
         return render(request, "updateItem.html", {'form': form})
 
+# Display table
 def showItemList(request):
     context = InventoryModel.objects.all()
     return render(request, "home.html", {'query': context})
+
 # Add Item to DB
 def addHandler(request):
     # Initial Load
@@ -43,6 +43,7 @@ def addHandler(request):
     print(request.POST)
     if 'cancelAdd' in request.POST:
         return redirect('/')
+    # Making sure all elements are present before adding to DB
     if 'itemSku' in request.POST and 'itemName' in request.POST \
             and 'itemAmount' in request.POST and 'itemAisle' in request.POST:
         addToSQL(request)
@@ -54,16 +55,18 @@ def indexHandler(request, showList=False):
     if request.POST == {}:
         context = InventoryModel.objects.all()
         return render(request, "home.html", {'query': context})
-    # Add to Database Button
+    # Add to Database
     if 'addToDB' in request.POST:
         return redirect('/add/')
+    # Show List
     if 'listInventory' in request.POST or showList:
         return showItemList(request)
-    # Search for Row Button
+    # Search for Row
     if 'searchDB' in request.POST:
         return searchSQL(request)
-        # Convert to CSV Button
+    # Convert to CSV
     if 'convertToCSV' in request.POST:
+        # Get path of inventoryCSV.csv file
         csvDir = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
         filePath = os.path.join(csvDir, 'inventoryCSV.csv')
         context = InventoryModel.objects.all()
