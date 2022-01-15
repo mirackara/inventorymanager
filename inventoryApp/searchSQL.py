@@ -9,7 +9,6 @@ def searchSQL(request):
     if itemNamePOST == '' and itemSkuPOST == '' and itemAislePOST == '':
         context = InventoryModel.objects.all()
         return render(request, "home.html", {'query' : context})
-
     if itemSkuPOST != '':
         context = InventoryModel.objects.filter(itemSKU=itemSkuPOST)
         return render(request, "home.html", {'query': context})

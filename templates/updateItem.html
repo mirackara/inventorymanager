@@ -60,30 +60,71 @@
                      placeholder="Aisle Number" style="border-color:#2a3942;"/>
                 </div>
                  </div>
-            <div class="col">
-                <input type="submit" name="update" id="update" value="Confirm" class="btn btn-primary">
-            </div>
         <br></br>
-        <div class= "card mx-auto" style="max-width: 70%; background-color:#2a3942" id="tableCard">
-        <!-- Using the formset -->
-        <table id="table" class="table" style="background-color:#1f2931;">
-            <tr>
-                    <th style="color:white" scope="col">SKU</th>
-                    <th style="color:white" scope="col">Item Name</th>
-                    <th style="color:white" scope="col">Inventory</th>
-                    <th style="color:white"scope="col">Aisle</th>
-                     <th></th>
-            </tr>
-            {% csrf_token %}
-            <tr>
-                <th> {{ form.itemSKU }} </th>
-                <th> {{ form.itemName }} </th>
-                <th> {{ form.itemAmount }} </th>
-                <th> {{ form.itemAisle }} </th>
-            </tr>
-        </table>
-        </div>
+                {% if form|length == 2 %}
+                    <input hidden name="itemOneSKU" value="{{ form.0.0 }}"/>
+                    <input hidden name="itemOneName" value='{{ form.0.1 }}'/>
+                    <input hidden name="itemOneAisle" value='{{ form.0.2 }}'/>
+                    <input hidden name="itemOneAmount" value='{{ form.0.3 }}'/>
+                    <input hidden name="itemTwoSKU" value="{{ form.1.0 }}"/>
+                    <input hidden name="itemTwoName" value='{{ form.1.1 }}'/>
+                    <input hidden name="itemTwoAmount" value='{{ form.1.2 }}'/>
+                    <input hidden name="itemTwoAisle" value='{{ form.1.3 }}'/>
+                    <p style="color:red;"> Element Already Exists. Please choose one.</p>
+                    <div class= "card mx-auto" style="max-width: 70%; background-color:#2a3942" id="tableCard">
+                    <!-- Using the formset -->
+                    <table id="table" class="table" style="background-color:#1f2931;">
+                        <tr>
+                                <th style="color:white" scope="col">SKU</th>
+                                <th style="color:white" scope="col">Item Name</th>
+                                <th style="color:white" scope="col">Inventory</th>
+                                <th style="color:white"scope="col">Aisle</th>
+                                 <th></th>
+                        </tr>
+                        {% csrf_token %}
+                        <tr>
+                            <th> <p style="color:white;">{{ form.0.0 }}</p></th>
+                            <th> <p style="color:white;">{{ form.0.1 }}</p> </th>
+                            <th> <p style="color:white;">{{ form.0.2 }}</p> </th>
+                            <th> <p style="color:white;">{{ form.0.3 }}</p> </th>
+                            <th><input type="submit" name="keepFirst" id="keepFirst" value="Keep" class="btn btn-primary"></th>
+                        </tr>
+                        <tr>
+                            <th> <p style="color:white;">{{ form.1.0 }}</p> </th>
+                            <th> <p style="color:white;">{{ form.1.1 }}</p> </th>
+                            <th> <p style="color:white;">{{ form.1.2 }}</p> </th>
+                            <th> <p style="color:white;">{{ form.1.3 }}</p> </th>
+                            <th><input type="submit" name="keepSecond" id="keepSecond" value="Keep" class="btn btn-primary"></th>
+                        </tr>
+                    </tr>
+            </table>
+            <input type="submit" name="cancelAdd" id="cancelAdd" value="Cancel" class="btn btn-primary">
+                {% else %}
+                    <div class= "card mx-auto" style="max-width: 70%; background-color:#2a3942" id="tableCard">
+                    <!-- Using the formset -->
+                    <table id="table" class="table" style="background-color:#1f2931;">
+                        <tr>
+                                <th style="color:white" scope="col">SKU</th>
+                                <th style="color:white" scope="col">Item Name</th>
+                                <th style="color:white" scope="col">Inventory</th>
+                                <th style="color:white"scope="col">Aisle</th>
+                                 <th></th>
+                        </tr>
+                        <tr>
+                            <th> {{ form.itemSKU }} </th>
+                            <th> {{ form.itemName }} </th>
+                            <th> {{ form.itemAmount }} </th>
+                            <th> {{ form.itemAisle }} </th>
+                        </tr>
+                        </table>
+                    </div>
+                    <div class="col">
+                        <input type="submit" name="update" id="update" value="Confirm" class="btn btn-primary">
+                    </div>
+            {% endif %}
+                </div>
         </form>
+    </div>
 </body>
 <!-- Footer -->
 <footer class="fixed-bottom">

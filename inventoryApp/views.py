@@ -11,6 +11,7 @@ def deleteHandler(request, itemSKU):
     InventoryModel.objects.filter(itemSKU=itemSKU).delete()
     return redirect('/')
 
+
 # Edit Existing Item
 def editHandler(request, itemSKU):
     if 'update' in request.POST:
@@ -21,7 +22,6 @@ def editHandler(request, itemSKU):
         model.itemSKU = itemSKU
         model.itemAmount = request.POST['itemAmount']
         model.itemAisle = request.POST['itemAisle']
-
         model.save()
         return redirect('/')
     # Show Editing Page
@@ -35,20 +35,33 @@ def showItemList(request):
     context = InventoryModel.objects.all()
     return render(request, "home.html", {'query': context})
 
+
 # Add Item to DB
 def addHandler(request):
     # Initial Load
     if request.POST == {}:
         return render(request, "addItem.html")
-    print(request.POST)
     if 'cancelAdd' in request.POST:
         return redirect('/')
-    # Making sure all elements are present before adding to DB
-    if 'itemSku' in request.POST and 'itemName' in request.POST \
-            and 'itemAmount' in request.POST and 'itemAisle' in request.POST:
-        addToSQL(request)
+    if 'keepFirst' in request.POST:
         return redirect('/')
-
+    if 'keepSecond' in request.POST:
+        InventoryModel.objects.filter(itemSKU=request.POST['itemTwoSKU']).delete()
+        post = request.POST.copy()  # to make it mutable
+        post['itemSku'] = post['itemTwoSKU']
+        post['itemName'] = post['itemTwoName']
+        post['itemAmount'] = post['itemTwoAmount']
+        post['itemAisle'] = post['itemTwoAisle']
+        request.POST = post
+        return redirect('/')
+    # If item was successfully added
+    if addToSQL(request):
+        return redirect('/')
+    else:
+        attemptedAdd = [request.POST['itemSku'],request.POST['itemName'],request.POST['itemAmount'],request.POST['itemAisle']]
+        item = InventoryModel.objects.get(itemSKU=request.POST['itemSku'])
+        form = [[item.itemSKU,item.itemName,item.itemAisle,item.itemAmount], attemptedAdd]
+        return render(request, "updateItem.html", {'form': form})
 
 def indexHandler(request, showList=False):
     # Initial Load
