@@ -21,13 +21,4 @@ $  python manage.py runserver
 This will start the web application on a locally hosted server.
 
 <h2>Requirements</h2>
-
-asgiref==3.4.1
-
-backports.zoneinfo==0.2.1
-
 Django==4.0.1
-
-mysqlclient==2.1.0
-
-sqlparse==0.4.2
