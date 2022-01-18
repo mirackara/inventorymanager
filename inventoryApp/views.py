@@ -40,7 +40,8 @@ def showItemList(request):
 def addHandler(request):
     # Initial Load
     if request.POST == {}:
-        return render(request, "addItem.html")
+        context = InventoryModel.objects.all()
+        return render(request, "addItem.html", {'query': context})
     if 'cancelAdd' in request.POST:
         return redirect('/')
     if 'keepFirst' in request.POST:

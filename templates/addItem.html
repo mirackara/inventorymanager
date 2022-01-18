@@ -42,17 +42,43 @@
     <body style="background-color:#2a3942">
         <form enctype="multipart/form-data" method="POST">
             {% csrf_token %}
-            <div id="searchCard" class= "card mx-auto" style="width: 20rem;" >
-            <input   type="search" name="itemSku" id="itemSku" class="form-control-small rounded"
-                         placeholder="SKU" style="border-color:#2a3942;"/>
-            <input  type="search" name="itemName" id="itemName" class="form-control-small rounded"
-                 placeholder="Item Name" style="border-color:#2a3942;"/>
-            <input  type="search" name="itemAmount" id="itemAmount" class="form-control-small rounded"
-                 placeholder="Amount in Inventory" style="border-color:#2a3942;"/>
-            <input  type="search" name="itemAisle" id="itemAisle" class="form-control-small rounded"
-                 placeholder="Aisle Number" style="border-color:#2a3942;"/>
-            <button type="submit" class="btn btn-primary">add</button>
-            <button type="submit" id="cancelAdd" name = "cancelAdd" class="btn btn-primary">cancel</button>
+
+            <div style="overflow:auto; height:600px;">
+            <!-- Using the formset -->
+            <table id="table" class="table" style=" margin-left:auto;margin-right:auto; width: 50%; background-color:#1f2931;">
+                <tr>
+                        <th style="color:white" scope="col">SKU</th>
+                        <th style="color:white" scope="col">Item Name</th>
+                        <th style="color:white" scope="col">Inventory</th>
+                        <th style="color:white"scope="col">Aisle</th>
+                         <th></th>
+                </tr>
+            <tr>
+                        <td><input  type="search" name="itemSku" id="itemSku" class="form-control-small rounded"
+                                    placeholder="SKU" style="border-color:#2a3942; width:100%"/></td>
+                        <td><input  type="search" name="itemName" id="itemName" class="form-control-small rounded"
+                                    placeholder="Item Name" style="border-color:#2a3942;width:100%"/></td>
+                        <td><input  type="search" name="itemAmount" id="itemAmount" class="form-control-small rounded"
+                                    placeholder="Amount in Inventory" style="border-color:#2a3942;width:100%"/></td>
+                        <td><input  type="search" name="itemAisle" id="itemAisle" class="form-control-small rounded"
+                                    placeholder="Aisle Number" style="border-color:#2a3942;width:100%"/></td>
+                        <td style="color:white">
+                            <button type="submit" class="btn btn-primary" style="color:green; border-color:#2a3942; width:100%"><span class="fas fa-plus"></span></button>
+                        </td>
+            </tr>
+                {% for item in query %}
+                    <tr>
+                        <td style="color:white">{{ item.itemSKU }}</td>
+                        <td style="color:white">{{ item.itemName }}</td>
+                        <td style="color:white">{{ item.itemAmount }}</td>
+                        <td style="color:white">{{ item.itemAisle }}</td>
+                        <td style="color:white">
+                            <a href="{% url 'editHandler' item.itemSKU %}" class="btn btn-info btn-sm" style="background-color: #2a3942" ><span class="far fa-edit"></span></a>
+                            <a href="{% url 'deleteHandler' item.itemSKU %}" style="background-color:red" class="btn btn-info btn-sm"><span class="fas fa-trash"></span></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
             </div>
         </form>
 
@@ -61,7 +87,7 @@
 <!-- Footer -->
 <footer class="fixed-bottom">
     <div class="text-left p-3" style="background-color:#2b4959; height: 50px;">
-        <a class="text-white" href="https://github.com/mirackara/projectscatter">GitHub</a>
+        <a class="text-white" href="https://github.com/mirackara/inventorymanager">GitHub</a>
     </div>
 </footer>
 </html>

@@ -136,35 +136,37 @@
             </div>
             </form>
         <br></br>
-        <!-- Using the formset -->
-        <table id="table" class="table" style=" margin-left:auto;margin-right:auto; width: 50%; background-color:#1f2931;">
-            <tr>
-                    <th style="color:white" scope="col">SKU</th>
-                    <th style="color:white" scope="col">Item Name</th>
-                    <th style="color:white" scope="col">Inventory</th>
-                    <th style="color:white"scope="col">Aisle</th>
-                     <th></th>
-            </tr>
-            {% for item in query %}
+        <div style="overflow:auto; height:600px;">
+            <!-- Using the formset -->
+            <table id="table" class="table" style=" margin-left:auto;margin-right:auto; width: 50%; background-color:#1f2931;">
                 <tr>
-                    <td style="color:white">{{ item.itemSKU }}</td>
-                    <td style="color:white">{{ item.itemName }}</td>
-                    <td style="color:white">{{ item.itemAmount }}</td>
-                    <td style="color:white">{{ item.itemAisle }}</td>
-                    <td style="color:white">
-                        <a href="{% url 'editHandler' item.itemSKU %}" class="btn btn-info btn-sm" style="background-color: #2a3942" ><span class="far fa-edit"></span></a>
-                        <a href="{% url 'deleteHandler' item.itemSKU %}" style="background-color:red" class="btn btn-info btn-sm"><span class="fas fa-trash"></span></a>
-                    </td>
+                        <th style="color:white" scope="col">SKU</th>
+                        <th style="color:white" scope="col">Item Name</th>
+                        <th style="color:white" scope="col">Inventory</th>
+                        <th style="color:white"scope="col">Aisle</th>
+                         <th></th>
                 </tr>
-            {% endfor %}
-        </table>
-        </div>
+                {% for item in query %}
+                    <tr>
+                        <td style="color:white">{{ item.itemSKU }}</td>
+                        <td style="color:white">{{ item.itemName }}</td>
+                        <td style="color:white">{{ item.itemAmount }}</td>
+                        <td style="color:white">{{ item.itemAisle }}</td>
+                        <td style="color:white">
+                            <a href="{% url 'editHandler' item.itemSKU %}" class="btn btn-info btn-sm" style="background-color: #2a3942" ><span class="far fa-edit"></span></a>
+                            <a href="{% url 'deleteHandler' item.itemSKU %}" style="background-color:red" class="btn btn-info btn-sm"><span class="fas fa-trash"></span></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            </div>
+            </div>
         </div>
 </body>
 <!-- Footer -->
 <footer class="fixed-bottom">
     <div class="text-left p-3" style="background-color:#2b4959; height: 50px;">
-        <a class="text-white" href="https://github.com/mirackara/projectscatter">GitHub</a>
+        <a class="text-white" href="https://github.com/mirackara/inventorymanager">GitHub</a>
     </div>
 </footer>
 </html>
